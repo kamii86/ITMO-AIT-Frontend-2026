@@ -29,54 +29,43 @@
     <main class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1>Llama-3-8B</h1>
-                <p class="text-muted">Uploaded by <strong>MetaAI</strong> Updated 2 days ago</p>
+                <h1 id="detail-name">Loading...</h1>
+                <p class="text-muted"><span id="detail-type" class="badge bg-primary">...</span></p>
             </div>
             <div>
-                <button class="btn btn-outline-secondary">Star 120</button>
-                <button class="btn btn-outline-secondary">Fork 45</button>
+                <button class="btn btn-outline-secondary" id="detail-stars">Star</button>
+                <button class="btn btn-outline-secondary" id="detail-forks">Fork</button>
             </div>
         </div>
 
         <div class="row">
-            <!-- Main info -->
             <div class="col-md-8">
                 <div class="item-card">
                     <h4>Description</h4>
-                    <p>Llama 3 is a family of state-of-the-art foundational large language models. This specific version has 8 billion parameters.</p>
+                    <p id="detail-desc">...</p>
                     
                     <h4 class="mt-4">Usage Example</h4>
-                    <pre class="bg-light p-3 border rounded"><code>
-import torch
-from transformers import pipeline
-
-generator = pipeline("text-generation", model="llama-3-8b")
-print(generator("Hello, I am a language model,"))
-                    </code></pre>
+                    <pre class="bg-light p-3 border rounded"><code id="detail-usage">...</code></pre>
                 </div>
             </div>
             
-            <!-- Sidebar metadata -->
             <div class="col-md-4">
                 <div class="item-card">
                     <h4>Metadata</h4>
                     <ul class="list-unstyled">
-                        <li><strong>License:</strong> MIT</li>
-                        <li><strong>Size:</strong> 15 GB</li>
-                        <li><strong>Task:</strong> NLP</li>
-                        <li><strong>Framework:</strong> PyTorch</li>
+                        <li class="mb-2"><strong>License:</strong> <span id="detail-lic">...</span></li>
+                        <li class="mb-2"><strong>Size:</strong> <span id="detail-size">...</span></li>
+                        <li class="mb-2"><strong>Task:</strong> <span id="detail-task">...</span></li>
+                        <li class="mb-2"><strong>Framework:</strong> <span id="detail-fw">...</span></li>
+                        <li class="mb-2"><strong>Metrics:</strong> <br><span id="detail-metrics" class="text-success fw-bold">...</span></li>
                     </ul>
-                    <button class="btn btn-primary w-100 mt-3">Download Model</button>
+                    <button class="btn btn-primary w-100 mt-3">Download (<span id="detail-dl">...</span>)</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-light text-center py-3">
-        <div class="container">
-            <small>Frontend Lab 1 - AI Platform</small>
-        </div>
-    </footer>
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

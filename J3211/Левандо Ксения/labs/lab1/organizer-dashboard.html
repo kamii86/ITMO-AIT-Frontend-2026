@@ -44,7 +44,7 @@
         <input type="text" id="eventName" class="form-control" placeholder="Event Name" required>
       </div>
       <div class="col-md-4">
-        <input type="date" id="eventDate" class="form-control" required>
+        <input type="date" id="eventDate" class="form-control" required min="">
       </div>
       <div class="col-md-4">
         <input type="text" id="eventCity" class="form-control" placeholder="City" required>
@@ -52,9 +52,21 @@
       <div class="col-md-4">
         <input type="text" id="eventVenue" class="form-control" placeholder="Venue" required>
       </div>
+
       <div class="col-md-4">
-        <input type="text" id="eventType" class="form-control" placeholder="Type (Concert/Festival/Theatre)" required>
+      <select id="eventType" class="form-select">
+      <option value="">Choose type</option>
+      <option value="Concert">Concert</option>
+      <option value="Festival">Festival</option>
+      <option value="Theatre">Theatre</option>
+      <option value="Sport">Sport</option>
+      <option value="Exhibition">Exhibition</option>
+      <option value="Other">Other</option>
+
+      </select>
+
       </div>
+
       <div class="col-md-4">
         <input type="text" id="eventImage" class="form-control" placeholder="Image URL">
       </div>

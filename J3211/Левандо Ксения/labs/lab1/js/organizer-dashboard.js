@@ -1,3 +1,6 @@
+document.getElementById("eventDate").min =
+    new Date().toISOString().split("T")[0];
+
 // check auth
 if (localStorage.getItem("organizerAuth") !== "true") {
     alert("Please login as organizer first");
@@ -48,21 +51,55 @@ function renderMyEvents() {
 
 // create new
 createForm.onsubmit = function(e) {
+
     e.preventDefault();
+
+    const name = document.getElementById("eventName").value.trim();
+    const date = document.getElementById("eventDate").value;
+    const city = document.getElementById("eventCity").value.trim();
+    const venue = document.getElementById("eventVenue").value.trim();
+    const type = document.getElementById("eventType").value;
+    const image = document.getElementById("eventImage").value.trim();
+
+    const cityPattern = /^[A-Za-z\s-]+$/;
+
+    if (!name || !date || !city || !venue || !type) {
+        alert("Please fill all required fields");
+        return;
+    }
+
+    if (!cityPattern.test(city)) {
+        alert("City name must contain only letters");
+        return;
+    }
+
+    const exists = events.find(ev =>
+    ev.name === name &&
+    ev.date === date &&
+    ev.organizer === organizerEmail
+    );
+
+    if (exists) {
+            alert("You already created this event");
+            return;}
     const newEvent = {
-        id: Date.now(), // уникальный ID
-        name: document.getElementById("eventName").value,
-        date: document.getElementById("eventDate").value,
-        city: document.getElementById("eventCity").value,
-        venue: document.getElementById("eventVenue").value,
-        type: document.getElementById("eventType").value,
-        image: document.getElementById("eventImage").value,
+        id: Date.now(),
+        name,
+        date,
+        city,
+        venue,
+        type,
+        image: image,
         organizer: organizerEmail
     };
 
+
     events.push(newEvent);
+
     localStorage.setItem("events", JSON.stringify(events));
+
     createForm.reset();
+
     renderMyEvents();
 };
 

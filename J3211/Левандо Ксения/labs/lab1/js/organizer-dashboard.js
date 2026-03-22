@@ -3,7 +3,7 @@ document.getElementById("eventDate").min =
 
 // check auth
 if (localStorage.getItem("organizerAuth") !== "true") {
-    alert("Please login as organizer first");
+    showModal("Unauthorized", "Please login as organizer first", "error");
     window.location.href = "organizer-login.html";
 }
 
@@ -100,12 +100,12 @@ createForm.onsubmit = async function(e) {
     const cityPattern = /^[A-Za-z\s-]+$/;
 
     if (!name || !date || !city || !venue || !type) {
-        alert("Please fill all required fields");
+        showModal("Error", "Please fill all required fields", "error");
         return;
     }
 
     if (!cityPattern.test(city)) {
-        alert("City name must contain only letters");
+        showModal("Error", "City name must contain only letters", "error");
         return;
     }
 
@@ -116,8 +116,8 @@ createForm.onsubmit = async function(e) {
     );
 
     if (exists) {
-            alert("You already created this event");
-            return;}
+        showModal("Warning", "You already created this event", "warning");
+        return;}
 
     // collect ticket categories
 
@@ -142,7 +142,7 @@ createForm.onsubmit = async function(e) {
     });
 
     if (categories.length === 0) {
-        alert("Add at least one ticket category");
+        showModal("Warning", "Add at least one ticket category", "warning");
         return;
     }
     
@@ -188,14 +188,14 @@ async function viewSales(eventId) {
     const soldTickets = await response.json();
 
     if (soldTickets.length === 0) {
-        alert("No tickets sold yet for this event");
+        showModal("Info", "No tickets sold yet for this event", "info");
         return;
     }
     const list = soldTickets
         .map(t => `${t.owner} - ${t.category}`)
         .join("\n");
 
-    alert(`Sold tickets:\n${list}`);
+    showModal("Info", `Sold tickets:\n${list}`, "info");
 }
 
 // Logout
@@ -204,3 +204,22 @@ logoutBtn.onclick = () => {
     localStorage.removeItem("organizerEmail");
     window.location.href = "organizer-login.html";
 };
+
+// --- Modal function (reuse from event page)
+function showModal(title, message, type = "primary") {
+    const modalEl = document.getElementById("appModal");
+
+    document.getElementById("appModalTitle").textContent = title;
+    document.getElementById("appModalBody").textContent = message;
+
+    const header = modalEl.querySelector(".modal-header");
+    header.className = "modal-header";
+
+    if (type === "error") header.classList.add("bg-danger", "text-white");
+    if (type === "success") header.classList.add("bg-success", "text-white");
+    if (type === "warning") header.classList.add("bg-warning");
+    if (type === "info") header.classList.add("bg-info", "text-white");
+
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+}

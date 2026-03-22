@@ -56,10 +56,15 @@ function renderReviews() {
 
 document.getElementById("submitReview").onclick = async () => {
     if (localStorage.getItem("organizerAuth") === "true") {
-        return alert("Organizers cannot leave reviews.");
+        // return alert("Organizers cannot leave reviews.");
+        showModal("Error", "Organizers cannot leave reviews.","error");
+        return;
     }
     const text = document.getElementById("reviewInput").value.trim();
-    if (!text) return alert("Enter review text");
+    if (!text){
+        showModal("Warning", "Enter review text", "warning");
+        return;
+    }
     const user = JSON.parse(localStorage.getItem("user")) || { email: "Guest" };//?
 
     await fetch("http://localhost:3000/reviews", {
@@ -86,11 +91,13 @@ const confirmBuyBtn = document.getElementById("confirmBuyBtn");
 
 buyBtn.onclick = () => {
     if (localStorage.getItem("organizerAuth") === "true") {
-        return alert("Organizers cannot buy tickets.");
+        showModal("Error", "Organizers cannot buy tickets.");
+        return;
     }
 
     if (!currentEvent.categories || currentEvent.categories.length === 0) {
-        return alert("No ticket categories available");
+        showModal("Info", "No ticket categories available");
+        eturn;
     }
 
     // fill select options
@@ -118,9 +125,11 @@ buyBtn.onclick = () => {
 
 confirmBuyBtn.onclick = async () => {
     if (localStorage.getItem("auth") !== "true") {
-        alert("Please login to buy tickets");
+        showModal("Authorization required", "Please login to buy tickets");
+    setTimeout(() => {
         window.location.href = "login.html";
-        return;
+    }, 3000);
+    return;
     }
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -146,7 +155,30 @@ confirmBuyBtn.onclick = async () => {
         })
 
     });
-
-    alert(`Ticket purchased! Category: ${selectedCategory.name}, $${selectedCategory.price}`);
     bootstrap.Modal.getInstance(document.getElementById("buyTicketModal")).hide();
+    showModal("Success",
+    `Ticket purchased!\nCategory: ${selectedCategory.name}, $${selectedCategory.price}`, "success"
+    );
 };
+
+// function for modal
+function showModal(title, message, type = "primary") {
+    const modalEl = document.getElementById("appModal");
+
+    document.getElementById("appModalTitle").textContent = title;
+    document.getElementById("appModalBody").textContent = message;
+
+    const header = modalEl.querySelector(".modal-header");
+
+    // reset classes
+    header.className = "modal-header";
+
+    // add color
+    if (type === "error") header.classList.add("bg-danger", "text-white");
+    if (type === "success") header.classList.add("bg-success", "text-white");
+    if (type === "warning") header.classList.add("bg-warning");
+    if (type === "info") header.classList.add("bg-info", "text-white");
+
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+}

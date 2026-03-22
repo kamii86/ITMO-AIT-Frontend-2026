@@ -33,7 +33,7 @@ function renderTickets(tickets) {
 
     container.innerHTML = "";
 
-    tickets.forEach((ticket, index) => {
+    tickets.forEach(ticket => {
         container.innerHTML += `
             <div class="border rounded p-3 mb-2 d-flex justify-content-between align-items-center">
                 <div>
@@ -42,7 +42,7 @@ function renderTickets(tickets) {
                 </div>
 
                 <button class="btn btn-sm btn-outline-danger"
-                        onclick="refundTicket(${index})">
+                        onclick="refundTicket('${ticket.id}')">
                     Refund
                 </button>
             </div>

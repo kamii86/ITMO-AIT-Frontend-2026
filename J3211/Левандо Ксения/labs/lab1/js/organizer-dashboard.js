@@ -176,7 +176,7 @@ createForm.onsubmit = async function(e) {
 
 async function deleteEvent(id) {
     showConfirmModal(
-        "Refund ticket",
+        "Delete event",
         "Are you sure you want to delete this event?",
         async () => {
             try {
@@ -212,7 +212,7 @@ async function viewSales(eventId) {
     showModal(
         "Sold tickets",
         `
-        <table class="table">
+        <table class="modal-table table">
             <thead>
                 <tr>
                     <th>User</th>

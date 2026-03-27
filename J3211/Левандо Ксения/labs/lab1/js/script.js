@@ -60,3 +60,40 @@ function logoutOrganizer() {
     location.reload();
     window.location.href = "login.html";
 }
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const activeIcon = document.getElementById("themeIconAlt");
+    const text = document.getElementById("themeTextAlt");
+    
+    if (currentTheme === "dark") {
+        // switch to light theme
+        document.documentElement.removeAttribute("data-theme");
+        localStorage.setItem("theme", "light");
+        if (activeIcon) activeIcon.textContent = "☀️";
+        if (text) text.textContent = "Light mode";
+    } else {
+        // switch to dark theme
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+        if (activeIcon) activeIcon.textContent = "🌙";
+        if (text) text.textContent = "Dark mode";
+    }
+}
+
+// loading the saved theme
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    const activeIcon = document.getElementById("themeIconAlt");
+    const text = document.getElementById("themeTextAlt");
+    
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute("data-theme", "dark");
+        if (activeIcon) activeIcon.textContent = "🌙";
+        if (text) text.textContent = "Dark mode";
+    } else {
+        document.documentElement.removeAttribute("data-theme");
+        if (activeIcon) activeIcon.textContent = "☀️";
+        if (text) text.textContent = "Light mode";
+    }
+});

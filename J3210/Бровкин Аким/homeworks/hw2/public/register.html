@@ -61,14 +61,16 @@
                     myCourses: []
                 };
 
-                const response = await fetch('http://localhost:3000/users', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newUser)
-                });
+                await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newUser)
+            });
 
-                const createdUser = await response.json();
-                localStorage.setItem('user', JSON.stringify(createdUser));
+                const getRes = await fetch(`http://localhost:3000/users?email=${email}`);
+                const users = await getRes.json();
+
+                localStorage.setItem('user', JSON.stringify(users[0]));
                 window.location.href = 'dashboard.html';
 
             } catch (error) {
